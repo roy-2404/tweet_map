@@ -37,11 +37,12 @@ class TwitterHelper:
         filter = {'geo_distance' : {'distance' : locJson['dist'], 'location' : {'lat' : locJson['lat'], 'lon' : locJson['lon']}}}
       )
       s = s.query(q)
-    
+
     if keyword != None:
       q = Q("match", text = keyword)
       s = s.query(q)
 
+    scanResp = None
     scanResp = helpers.scan(client = TwitterHelper.ES, query = s.to_dict(), scroll = "1m", index = "tweets", timeout = "1m")
 
     arr = []
@@ -57,33 +58,3 @@ class TwitterHelper:
     allD['tweets'] = arr
     mapInput = json.dumps(allD)
     return mapInput
-    # ADDED BY EUGENE (Mar 5 3.52am)
-
-    #s = Search(using=TwitterHelper.ES, index="tweets")
-    # if latlondist != None:
-    #   q = Q('bool',
-    #     must=[Q('match_all')],
-    #     filter= {'geo_distance' : {'distance': latlondist['distance'], 'location': {'lat':latlondist['lat'],'lon':latlondist['lon']}}}
-    #   )
-    #   s = s.query(q)
-    
-    # if keyword != None:
-    #   q = Q("match_phrase", text=keyword)
-    #   s = s.query(q)
-    #   #s = s.filter('text', tags=[keyword])
-
-    # s = s.params(size=99999999)
-    # response = s.execute()
-    # arr = []
-    # for hit in response:
-    #   d = {}
-    #   d['name'] = hit.name
-    #   d['text'] = hit.text
-    #   d['lat'] = hit.location.lat
-    #   d['lon'] = hit.location.lon
-    #   arr.append(d)
-
-    # allD = {}
-    # allD['tweets'] = arr
-    # mapInput = json.dumps(allD)
-    # return mapInput

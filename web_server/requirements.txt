@@ -1,4 +1,4 @@
-elasticsearch==2.3.0
+elasticsearch==1.9.0
 elasticsearch-dsl==2.0.0
 Flask==0.10.1
 itsdangerous==0.24
