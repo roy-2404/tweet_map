@@ -32,16 +32,21 @@ class TwitterHelper:
     s = Search()
     if latlondist != None:
       locJson = json.loads(latlondist)
-      q = Q('bool',
-        must = [Q('match_all')],
-        filter = {'geo_distance' : {'distance' : locJson['dist'], 'location' : {'lat' : locJson['lat'], 'lon' : locJson['lon']}}}
-      )
-      s = s.query(q)
+      # q = Q("match_all", filter = { "geo_distance" : {
+      #                               "distance" : locJson['dist'],
+      #                               "location" : {
+      #                                   "lat" : locJson['lat'],
+      #                                   "lon" : locJson['lon']
+      #                               }
+      #                           }
+      #                       })
+      # s = s.query(q)
+      s = s.query({"filtered" : {"query" : {"match_all" : {}}, "filter" : {"geo_distance" : {"distance" : locJson['dist'], "location" : {"lat" : locJson['lat'], "lon" : locJson['lon']}}}}})
 
     if keyword != None:
       q = Q("match", text = keyword)
       s = s.query(q)
-
+    
     scanResp = None
     scanResp = helpers.scan(client = TwitterHelper.ES, query = s.to_dict(), scroll = "1m", index = "tweets", timeout = "1m")
 
