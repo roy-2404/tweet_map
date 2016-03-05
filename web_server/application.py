@@ -12,7 +12,7 @@ def index():
 def keyword_search(keyword):
   return TwitterHelper.searchTweets(keyword, None)
 
-@application.route("/location.json")
+@application.route("/location.json/<location>")
 def location_search(location):
   return TwitterHelper.searchTweets(None, location)
 
