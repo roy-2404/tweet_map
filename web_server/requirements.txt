@@ -7,3 +7,4 @@ oauthlib==1.0.3
 requests-aws4auth==0.9
 requests-oauthlib==0.6.1
 tweepy==3.5.0
+Werkzeug==0.7
