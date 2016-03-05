@@ -12,37 +12,37 @@ class TwitterHelper:
   AWSAUTH = AWS4Auth(AWS_ACCESS_KEY, AWS_SECRET_KEY, REGION, 'es')
 
   ES = Elasticsearch(
-    hosts=[{'host': AWS_ELASTICSEARCH_HOST, 'port': 443}],
-    http_auth=AWSAUTH,
-    use_ssl=True,
-    verify_certs=True,
-    connection_class=RequestsHttpConnection
+    hosts = [{'host' : AWS_ELASTICSEARCH_HOST, 'port' : 443}],
+    http_auth = AWSAUTH,
+    use_ssl = True,
+    verify_certs = True,
+    connection_class = RequestsHttpConnection
   )
 
   @staticmethod
   def searchTweets(keyword, latlondist):
     #Variables that contains the user credentials to access Twitter API 
     if TwitterHelper.AWS_ACCESS_KEY == None:
-      raise KeyError("Please, set the AWS_ACCESS_KEY env. variable")
+      raise KeyError("Please set the AWS_ACCESS_KEY env. variable")
     
     if TwitterHelper.AWS_SECRET_KEY == None:
-      raise KeyError("Please, set the AWS_SECRET_KEY env. variable")
+      raise KeyError("Please set the AWS_SECRET_KEY env. variable")
 
     # ADDED BY EUGENE (Mar 5 3.52am)
     s = Search()
     if latlondist != None:
       locJson = json.loads(latlondist)
       q = Q('bool',
-        must=[Q('match_all')],
-        filter= {'geo_distance' : {'distance': locJson['dist'], 'location': {'lat':locJson['lat'],'lon':locJson['lon']}}}
+        must = [Q('match_all')],
+        filter = {'geo_distance' : {'distance' : locJson['dist'], 'location' : {'lat' : locJson['lat'], 'lon' : locJson['lon']}}}
       )
       s = s.query(q)
     
     if keyword != None:
-      q = Q("match", text=keyword)
+      q = Q("match", text = keyword)
       s = s.query(q)
 
-    scanResp= helpers.scan(client= ES, query=s.to_dict(), scroll= "1m", index="tweets", timeout="1m")
+    scanResp = helpers.scan(client = TwitterHelper.ES, query = s.to_dict(), scroll = "1m", index = "tweets", timeout = "1m")
 
     arr = []
     for resp in scanResp:
