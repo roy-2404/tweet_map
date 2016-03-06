@@ -6,7 +6,7 @@ function centerMap(map) {
   var controlUI = document.getElementById('center-ui');
   controlUI.addEventListener('click', function() {
     map.setCenter(centerofworld);
-    map.setZoom(2.5);
+    map.setZoom(2);
   });
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 }
@@ -64,7 +64,7 @@ function main() {
 
   // Map options
   var mapOptions = {
-    zoom: 2.5,
+    zoom: 2,
     center: mapCenter,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
