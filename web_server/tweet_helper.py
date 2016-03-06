@@ -19,6 +19,11 @@ class TwitterHelper:
     connection_class = RequestsHttpConnection
   )
 
+  # This is just for testing with local instance of elasticsearch.
+  # AWS_ACCESS_KEY = 'ABC';
+  # AWS_SECRET_KEY = 'DEF';
+  # ES = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+
   @staticmethod
   def searchTweets(keyword, latlondist):
     #Variables that contains the user credentials to access Twitter API 
@@ -28,7 +33,6 @@ class TwitterHelper:
     if TwitterHelper.AWS_SECRET_KEY == None:
       raise KeyError("Please set the AWS_SECRET_KEY env. variable")
 
-    # ADDED BY EUGENE (Mar 5 3.52am)
     s = Search()
     if latlondist != None:
       locJson = json.loads(latlondist)

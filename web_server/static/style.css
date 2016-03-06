@@ -23,7 +23,7 @@ html, body, #map {
   padding-right: 5px;
 }
 
-#selectpoint-ui {
+/*#selectpoint-ui {
   background-color: #fff;
   border: 2px solid #fff;
   border-radius: 3px;
@@ -32,8 +32,8 @@ html, body, #map {
   margin-bottom: 22px;
   text-align: center;
 }
-
-#selectpoint-text {
+*/
+/*#selectpoint-text {
   color: rgb(25,25,25);
   font-family: "Roboto", Arial, sans-serif;
   font-size: 16px;
@@ -41,7 +41,7 @@ html, body, #map {
   padding-left: 5px;
   padding-right: 5px;
 }
-
+*/
 #reset-ui {
   background-color: #fff;
   border: 2px solid #fff;
