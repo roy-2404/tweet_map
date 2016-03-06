@@ -6,20 +6,10 @@ function centerMap(map) {
   var controlUI = document.getElementById('center-ui');
   controlUI.addEventListener('click', function() {
     map.setCenter(centerofworld);
-    map.setZoom(2);
+    map.setZoom(2.5);
   });
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 }
-
-// function setupSelectPoint(map) {
-//   var selectPointDiv = document.getElementById('selectpoint-button');
-//   var controlUI = document.getElementById('selectpoint-ui');
-//   controlUI.addEventListener('click', function() {
-//     respondToMapClick = true;
-//     alert("Select a point on the map");
-//   });
-//   map.controls[google.maps.ControlPosition.TOP_CENTER].push(selectPointDiv);
-// }
 
 function setResetPosition(map) {
   var resetPositionDiv = document.getElementById('reset-button');
@@ -74,7 +64,7 @@ function main() {
 
   // Map options
   var mapOptions = {
-    zoom: 2,
+    zoom: 2.5,
     center: mapCenter,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
@@ -84,26 +74,15 @@ function main() {
   response = $('#map').data('tweet');
   renderHeatmap(response);
   centerMap(map);
-  // map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('reset-button'));
-  // setupSelectPoint(map);
  
   // Add click listener for geo-location
   google.maps.event.addListener(map, 'click', function (e) {
-      var locJSON = "{";
-      locJSON += "\"dist\":" + "\"100mi\",";
-      locJSON += "\"lat\":" + e.latLng.lat() + ",";
-      locJSON += "\"lon\":" + e.latLng.lng();
-      locJSON += "}";
-      locationSearch(locJSON);
-    // if (respondToMapClick) {
-    //   var locJSON = "{";
-    //   locJSON += "\"dist\":" + "\"100mi\",";
-    //   locJSON += "\"lat\":" + e.latLng.lat() + ",";
-    //   locJSON += "\"lon\":" + e.latLng.lng();
-    //   locJSON += "}";
-    //   locationSearch(locJSON);
-    // }
-    // respondToMapClick = false;
+    var locJSON = "{";
+    locJSON += "\"dist\":" + "\"100mi\",";
+    locJSON += "\"lat\":" + e.latLng.lat() + ",";
+    locJSON += "\"lon\":" + e.latLng.lng();
+    locJSON += "}";
+    locationSearch(locJSON);
   });
 
   setResetPosition(map);

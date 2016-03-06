@@ -19,11 +19,6 @@ class TwitterHelper:
     connection_class = RequestsHttpConnection
   )
 
-  # This is just for testing with local instance of elasticsearch.
-  # AWS_ACCESS_KEY = 'ABC';
-  # AWS_SECRET_KEY = 'DEF';
-  # ES = Elasticsearch([{'host': 'localhost', 'port': 9200}])
-
   @staticmethod
   def searchTweets(keyword, latlondist):
     #Variables that contains the user credentials to access Twitter API 
@@ -36,15 +31,6 @@ class TwitterHelper:
     s = Search()
     if latlondist != None:
       locJson = json.loads(latlondist)
-      # q = Q("match_all", filter = { "geo_distance" : {
-      #                               "distance" : locJson['dist'],
-      #                               "location" : {
-      #                                   "lat" : locJson['lat'],
-      #                                   "lon" : locJson['lon']
-      #                               }
-      #                           }
-      #                       })
-      # s = s.query(q)
       s = s.query({"filtered" : {"query" : {"match_all" : {}}, "filter" : {"geo_distance" : {"distance" : locJson['dist'], "location" : {"lat" : locJson['lat'], "lon" : locJson['lon']}}}}})
 
     if keyword != None:
